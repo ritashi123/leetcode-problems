@@ -1,0 +1,51 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<ctype.h>
+
+#define MAX 100
+
+int stack[MAX];
+int top = -1;
+
+void push(int value){
+    if(top == MAX - 1){
+        printf("Stack Overflow\n");
+        return;
+    }
+    stack[++top] = value;
+}
+
+int pop(){
+    if(top == -1){
+        return -1;
+    }
+    return stack[top--];
+}
+
+int evaluatePrefix(const char* expression){
+    int i = 0;
+    for(i = MAX - 1; i>=0; i--){
+        if(isdigit(expression[i])){
+            push(expression[i] - '0');
+        }
+        else{
+            int op1 = pop();
+            int op2 = pop();
+
+            switch(expression[i]){
+                case '+': push(op1 + op2); break;
+                case '-': push(op1 - op2); break;
+                case '*': push(op1 * op2); break;
+                case '/': push(op1 / op2); break;
+            }
+        }
+    }
+    return pop();
+}
+
+int main(){
+    char expression[MAX];
+    printf("Enter the prefix expression: ");
+    scanf("%s",expression);
+    printf("Result: %d\n",evaluatePrefix(expression));
+    return 0;
