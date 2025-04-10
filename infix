@@ -1,0 +1,35 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <ctype.h>
+#include <string.h>
+
+#define MAX 100
+
+
+int operandStack[MAX], operatorStack[MAX];
+int operandTop = -1, operatorTop = -1;
+
+
+void pushOperand(int value);
+int popOperand();
+void pushOperator(char op);
+char popOperator();
+char peekOperator();
+int precedence(char op);
+int applyOperation(int a, int b, char op);
+int evaluateInfix(const char *expression);
+
+int main() {
+    char expression[MAX];
+
+    printf("Enter infix expression: ");
+    fgets(expression, MAX, stdin); // Read full line including spaces
+
+    int result = evaluateInfix(expression);
+    if (result != -1)
+        printf("Result: %d\n", result);
+    else
+        printf("Invalid Expression\n");
+
+    return 0;
+}
